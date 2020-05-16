@@ -1,5 +1,3 @@
-import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -23,6 +21,10 @@ export default class Login extends Component {
 
   onClickListener = viewId => {
     Alert.alert('Alert', 'Button pressed ' + viewId);
+  };
+
+  onLogin = () => {
+    this.props.navigation.navigate('Home');
   };
 
   render() {
@@ -51,7 +53,7 @@ export default class Login extends Component {
 
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.onClickListener('login')}>
+          onPress={this.onLogin}>
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
 
