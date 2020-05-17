@@ -47,6 +47,10 @@ export default class Login extends Component {
     this.props.navigation.navigate('Home');
   };
 
+  onRegister = () => {
+    this.props.navigation.navigate('Register');
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -79,13 +83,7 @@ export default class Login extends Component {
 
         <TouchableHighlight
           style={styles.buttonContainer}
-          onPress={() => this.onClickListener('restore_password')}>
-          <Text>Forgot your password?</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          style={styles.buttonContainer}
-          onPress={() => this.onClickListener('register')}>
+          onPress={this.onRegister}>
           <Text>Register</Text>
         </TouchableHighlight>
       </View>
