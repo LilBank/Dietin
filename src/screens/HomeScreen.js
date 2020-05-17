@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, Modal, StyleSheet, TextInput} from 'react-native';
-import {TouchableHighlight} from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  Modal,
+  StyleSheet,
+  TextInput,
+  TouchableHighlight,
+} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
@@ -8,6 +14,7 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      documentId: '',
       caloriesRemaining: 0,
       caloriesConsumed: 0,
       caloriesBurnOut: 0,
@@ -30,6 +37,7 @@ export default class HomeScreen extends Component {
           const caloriesData = documentSnapshot.data();
           if (user.uid === caloriesData.user_id)
             this.setState({
+              documentId: documentSnapshot.ref.id,
               caloriesRemaining: caloriesData.calories,
               caloriesConsumed: caloriesData.consume,
               caloriesBurnOut: caloriesData.burn_out,
@@ -65,6 +73,32 @@ export default class HomeScreen extends Component {
         this.props.navigation.navigate('SignIn');
       });
   };
+
+  onEatSubmit = () => {
+    const {documentId, eatValue} = this.state;
+    firestore()
+      .collection('calories')
+      .doc(documentId)
+      .update({
+        consume: eatValue,
+      })
+      .then(() => {
+        alert('Updated!');
+      });
+  };
+
+  onWorkOutSubmit = () => {
+    const {documentId, workOutValue} = this.state;
+    firestore()
+      .collection('calories')
+      .doc(documentId)
+      .update({
+        burn_out: workOutValue,
+      })
+      .then(() => {
+        alert('Updated!');
+      });
+  };s
 
   render() {
     const {
@@ -110,10 +144,9 @@ export default class HomeScreen extends Component {
         </TouchableHighlight>
         <Modal
           animationType="slide"
-          transparent={true}
           visible={isModalEatVisible}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
+            alert('Modal has been closed.');
           }}>
           <View style={styles.container}>
             <Text>Eat</Text>
@@ -124,15 +157,19 @@ export default class HomeScreen extends Component {
                 underlineColorAndroid="transparent"
                 onChangeText={eatValue => this.setState({eatValue})}
               />
+              <TouchableHighlight
+                style={styles.buttonContainer}
+                onPress={this.onEatSubmit}>
+                <Text>Submit</Text>
+              </TouchableHighlight>
             </View>
           </View>
         </Modal>
         <Modal
           animationType="slide"
-          transparent={true}
           visible={isModalWorkOutVisible}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
+            alert('Modal has been closed.');
           }}>
           <View style={styles.container}>
             <Text>Work Out</Text>
@@ -143,6 +180,11 @@ export default class HomeScreen extends Component {
                 underlineColorAndroid="transparent"
                 onChangeText={workOutValue => this.setState({workOutValue})}
               />
+              <TouchableHighlight
+                style={styles.buttonContainer}
+                onPress={this.onWorkOutSubmit}>
+                <Text>Submit</Text>
+              </TouchableHighlight>
             </View>
           </View>
         </Modal>
@@ -156,6 +198,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#DCDCDC',
   },
   buttonContainer: {
     height: 45,
