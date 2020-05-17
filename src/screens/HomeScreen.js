@@ -145,7 +145,6 @@ export default class HomeScreen extends Component {
     const {
       caloriesRemaining,
       caloriesConsumed,
-      caloriesBurnOut,
       isModalEatVisible,
       isModalWorkOutVisible,
       eatValue,
@@ -161,9 +160,6 @@ export default class HomeScreen extends Component {
         </Text>
         <Text style={{fontSize: 25, marginBottom: 30}}>
           Consumed {caloriesConsumed}
-        </Text>
-        <Text style={{fontSize: 25, marginBottom: 45}}>
-          Burn Out {caloriesBurnOut}
         </Text>
         <TouchableHighlight
           style={styles.buttonContainer}
