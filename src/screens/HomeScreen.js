@@ -199,7 +199,7 @@ export default class HomeScreen extends Component {
                 placeholder="?"
                 keyboardType="numeric"
                 underlineColorAndroid="transparent"
-                onChangeText={eatValue => this.setState({eatValue})}
+                onChangeText={eatValue => this.setState({eatValue: parseInt(eatValue)})}
                 value={eatValue}
               />
             </View>
@@ -224,7 +224,7 @@ export default class HomeScreen extends Component {
                 placeholder="?"
                 keyboardType="numeric"
                 underlineColorAndroid="transparent"
-                onChangeText={workOutValue => this.setState({workOutValue})}
+                onChangeText={workOutValue => this.setState({workOutValue: parseInt(workOutValue)})}
                 value={workOutValue}
               />
             </View>
