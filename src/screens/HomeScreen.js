@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {View, Text, Modal, StyleSheet, TextInput} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -11,6 +11,10 @@ export default class HomeScreen extends Component {
       caloriesRemaining: 0,
       caloriesConsumed: 0,
       caloriesBurnOut: 0,
+      isModalEatVisible: false,
+      isModalWorkOutVisible: false,
+      workOutValue: 0,
+      eatValue: 0,
     };
   }
 
@@ -37,9 +41,13 @@ export default class HomeScreen extends Component {
     }
   };
 
-  onEatPress = () => {};
+  onEatPress = () => {
+    this.setState({isModalEatVisible: true});
+  };
 
-  onWorkOutPress = () => {};
+  onWorkOutPress = () => {
+    this.setState({isModalWorkOutVisible: true});
+  };
 
   onResetPress = () => {
     this.setState({
@@ -59,7 +67,13 @@ export default class HomeScreen extends Component {
   };
 
   render() {
-    const {caloriesRemaining, caloriesConsumed, caloriesBurnOut} = this.state;
+    const {
+      caloriesRemaining,
+      caloriesConsumed,
+      caloriesBurnOut,
+      isModalEatVisible,
+      isModalWorkOutVisible,
+    } = this.state;
     return (
       <View style={styles.container}>
         <Text style={{fontSize: 25, marginBottom: 30, marginTop: 10}}>
@@ -94,6 +108,44 @@ export default class HomeScreen extends Component {
           onPress={this.onSignOut}>
           <Text style={{fontSize: 16}}>Sign out</Text>
         </TouchableHighlight>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalEatVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={styles.container}>
+            <Text>Eat</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.inputs}
+                placeholder="?"
+                underlineColorAndroid="transparent"
+                onChangeText={eatValue => this.setState({eatValue})}
+              />
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalWorkOutVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={styles.container}>
+            <Text>Work Out</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.inputs}
+                placeholder="?"
+                underlineColorAndroid="transparent"
+                onChangeText={workOutValue => this.setState({workOutValue})}
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -122,5 +174,22 @@ const styles = StyleSheet.create({
     width: 125,
     height: 125,
     marginBottom: 25,
+  },
+  inputContainer: {
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    width: 250,
+    height: 45,
+    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inputs: {
+    height: 45,
+    marginLeft: 16,
+    borderBottomColor: '#FFFFFF',
+    flex: 1,
   },
 });
