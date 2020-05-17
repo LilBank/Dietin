@@ -13,6 +13,7 @@ export default class HomeScreen extends Component {
       caloriesBurnOut: 0,
     };
   }
+
   componentDidMount = async () => {
     const user = auth().currentUser;
     if (user) {
