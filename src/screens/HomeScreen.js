@@ -15,7 +15,7 @@ export default class HomeScreen extends Component {
     super(props);
     this.state = {
       documentId: '',
-      caloriesRemaining: 0,
+      caloriesRemaining: 1800,
       caloriesConsumed: 0,
       caloriesBurnOut: 0,
       isModalEatVisible: false,
@@ -58,6 +58,14 @@ export default class HomeScreen extends Component {
   };
 
   onResetPress = () => {
+    firestore()
+      .collection('calories')
+      .doc(documentId)
+      .update({
+        calories: 1800,
+        consume: 0,
+        burn_out: 0,
+      });
     this.setState({
       caloriesRemaining: 0,
       caloriesConsumed: 0,
@@ -75,32 +83,45 @@ export default class HomeScreen extends Component {
   };
 
   onEatSubmit = () => {
-    const {documentId, eatValue} = this.state;
+    const {documentId, eatValue, caloriesRemaining} = this.state;
+    const currentCalories = caloriesRemaining - eatValue;
     firestore()
       .collection('calories')
       .doc(documentId)
       .update({
+        calories: currentCalories,
         consume: eatValue,
       })
       .then(() => {
         alert('Updated!');
-        this.setState({caloriesConsumed: eatValue});
+        this.setState({
+          caloriesRemaining: currentCalories,
+          caloriesConsumed: eatValue,
+          isModalEatVisible: false,
+        });
       });
   };
 
   onWorkOutSubmit = () => {
-    const {documentId, workOutValue} = this.state;
+    const {documentId, workOutValue, caloriesRemaining} = this.state;
+    const currentCalories = caloriesRemaining + workOutValue;
     firestore()
       .collection('calories')
       .doc(documentId)
       .update({
+        calories: currentCalories,
         burn_out: workOutValue,
       })
       .then(() => {
         alert('Updated!');
-        this.setState({caloriesBurnOut: workOutValue});
+        this.setState({
+          caloriesRemaining: currentCalories,
+          caloriesBurnOut: workOutValue,
+          isModalWorkOutVisible: false,
+        });
       });
-  };s
+  };
+  s;
 
   render() {
     const {
@@ -159,12 +180,12 @@ export default class HomeScreen extends Component {
                 underlineColorAndroid="transparent"
                 onChangeText={eatValue => this.setState({eatValue})}
               />
-              <TouchableHighlight
-                style={styles.buttonContainer}
-                onPress={this.onEatSubmit}>
-                <Text>Submit</Text>
-              </TouchableHighlight>
             </View>
+            <TouchableHighlight
+              style={styles.buttonContainer}
+              onPress={this.onEatSubmit}>
+              <Text>Submit</Text>
+            </TouchableHighlight>
           </View>
         </Modal>
         <Modal
@@ -182,12 +203,12 @@ export default class HomeScreen extends Component {
                 underlineColorAndroid="transparent"
                 onChangeText={workOutValue => this.setState({workOutValue})}
               />
-              <TouchableHighlight
-                style={styles.buttonContainer}
-                onPress={this.onWorkOutSubmit}>
-                <Text>Submit</Text>
-              </TouchableHighlight>
             </View>
+            <TouchableHighlight
+              style={styles.buttonContainer}
+              onPress={this.onWorkOutSubmit}>
+              <Text>Submit</Text>
+            </TouchableHighlight>
           </View>
         </Modal>
       </View>
