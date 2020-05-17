@@ -92,7 +92,7 @@ export default class HomeScreen extends Component {
     } = this.state;
     const currentCalories = caloriesRemaining - eatValue;
     const currentConsume = caloriesConsumed + eatValue;
-    const currentBurnOut = caloriesConsumed + workOutValue;
+    const currentBurnOut = caloriesConsumed + eatValue;
     firestore()
       .collection('calories')
       .doc(documentId)
