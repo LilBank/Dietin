@@ -19,6 +19,16 @@ export default class SignUpScreen extends Component {
 
   onSignUp = () => {
     const {email, password} = this.state;
+    const user = auth().currentUser;
+
+    firestore()
+      .collection('calories')
+      .add({
+        user_id: user.uid,
+        calories: 1800,
+        consume: 0,
+      });
+      
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
