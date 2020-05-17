@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import Login from './src/components/Login';
 import HomeScreen from './src/screens/HomeScreen';
-import Register from './src/components/Register';
+import SignInScreen from './src/screens/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
@@ -29,10 +29,10 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={!user ? 'Login' : 'Home'}>
+      <Stack.Navigator initialRouteName={!user ? 'SignIn' : 'Home'}>
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

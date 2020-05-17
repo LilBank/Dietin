@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
+import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
+  Button,
   TouchableHighlight,
+  Image,
+  Alert,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
 
-export default class Register extends Component {
+export default class SignInScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,20 +20,36 @@ export default class Register extends Component {
     };
   }
 
-  onRegister = () => {
+  onClickListener = viewId => {
+    Alert.alert('Alert', 'Button pressed ' + viewId);
+  };
+
+  onSignIn = async () => {
     const {email, password} = this.state;
     auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        alert('User created!');
-        this.props.navigation.navigate('Home');
-      })
-      .catch(error => alert(error));
+      .signInWithEmailAndPassword(email, password)
+      .then(() => this.props.navigation.navigate('Home'))
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          alert('That email address is already in use!');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          alert('That email address is invalid!');
+        }
+
+        alert(error);
+      });
+  };
+
+  onSignUp = () => {
+    this.props.navigation.navigate('SignUp');
   };
 
   render() {
     return (
       <View style={styles.container}>
+        <Image style={styles.image} source={require('../assets/dietin.png')} />
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputs}
@@ -52,9 +71,15 @@ export default class Register extends Component {
         </View>
 
         <TouchableHighlight
-          style={[styles.buttonContainer, styles.signupButton]}
-          onPress={this.onRegister}>
-          <Text style={styles.signUpText}>Register</Text>
+          style={[styles.buttonContainer, styles.loginButton]}
+          onPress={this.onSignIn}>
+          <Text style={styles.loginText}>Sign In</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight
+          style={styles.buttonContainer}
+          onPress={this.onSignUp}>
+          <Text>Sign Up</Text>
         </TouchableHighlight>
       </View>
     );
@@ -85,12 +110,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#FFFFFF',
     flex: 1,
   },
-  inputIcon: {
-    width: 30,
-    height: 30,
-    marginLeft: 15,
-    justifyContent: 'center',
-  },
   buttonContainer: {
     height: 45,
     flexDirection: 'row',
@@ -100,10 +119,15 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 30,
   },
-  signupButton: {
+  loginButton: {
     backgroundColor: '#00b5ec',
   },
-  signUpText: {
+  loginText: {
     color: 'white',
+  },
+  image: {
+    width: 125,
+    height: 125,
+    marginBottom: 25,
   },
 });

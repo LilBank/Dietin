@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
-import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  Button,
   TouchableHighlight,
-  Image,
-  Alert,
 } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
-export default class Login extends Component {
+export default class SignUpScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,36 +17,20 @@ export default class Login extends Component {
     };
   }
 
-  onClickListener = viewId => {
-    Alert.alert('Alert', 'Button pressed ' + viewId);
-  };
-
-  onLogin = () => {
+  onSignUp = () => {
     const {email, password} = this.state;
     auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          alert('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          alert('That email address is invalid!');
-        }
-
-        alert(error);
-      });
-    this.props.navigation.navigate('Home');
-  };
-
-  onRegister = () => {
-    this.props.navigation.navigate('Register');
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        alert('User created!');
+        this.props.navigation.navigate('Home');
+      })
+      .catch(error => alert(error));
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={require('../assets/dietin.png')} />
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputs}
@@ -71,15 +52,9 @@ export default class Login extends Component {
         </View>
 
         <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
-          onPress={this.onLogin}>
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          style={styles.buttonContainer}
-          onPress={this.onRegister}>
-          <Text>Register</Text>
+          style={[styles.buttonContainer, styles.signupButton]}
+          onPress={this.onSignUp}>
+          <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableHighlight>
       </View>
     );
@@ -110,6 +85,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#FFFFFF',
     flex: 1,
   },
+  inputIcon: {
+    width: 30,
+    height: 30,
+    marginLeft: 15,
+    justifyContent: 'center',
+  },
   buttonContainer: {
     height: 45,
     flexDirection: 'row',
@@ -119,15 +100,10 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 30,
   },
-  loginButton: {
+  signupButton: {
     backgroundColor: '#00b5ec',
   },
-  loginText: {
+  signUpText: {
     color: 'white',
-  },
-  image: {
-    width: 125,
-    height: 125,
-    marginBottom: 25,
   },
 });
