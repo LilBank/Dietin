@@ -84,6 +84,7 @@ export default class HomeScreen extends Component {
       })
       .then(() => {
         alert('Updated!');
+        this.setState({caloriesConsumed: eatValue});
       });
   };
 
@@ -97,6 +98,7 @@ export default class HomeScreen extends Component {
       })
       .then(() => {
         alert('Updated!');
+        this.setState({caloriesBurnOut: workOutValue});
       });
   };s
 
@@ -146,7 +148,7 @@ export default class HomeScreen extends Component {
           animationType="slide"
           visible={isModalEatVisible}
           onRequestClose={() => {
-            alert('Modal has been closed.');
+            this.setState({isModalEatVisible: false});
           }}>
           <View style={styles.container}>
             <Text>Eat</Text>
@@ -169,7 +171,7 @@ export default class HomeScreen extends Component {
           animationType="slide"
           visible={isModalWorkOutVisible}
           onRequestClose={() => {
-            alert('Modal has been closed.');
+            this.setState({isModalWorkOutVisible: false});
           }}>
           <View style={styles.container}>
             <Text>Work Out</Text>
@@ -205,7 +207,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginTop: 20,
     width: 250,
     borderRadius: 10,
     backgroundColor: 'white',
