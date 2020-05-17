@@ -113,9 +113,14 @@ export default class HomeScreen extends Component {
   };
 
   onWorkOutSubmit = () => {
-    const {documentId, workOutValue, caloriesRemaining} = this.state;
+    const {
+      documentId,
+      workOutValue,
+      caloriesRemaining,
+      caloriesBurnOut,
+    } = this.state;
     const currentCalories = caloriesRemaining + workOutValue;
-    const currentWorkOut = caloriesConsumed + workOutValue;
+    const currentWorkOut = caloriesBurnOut + workOutValue;
     const currentConsumed = caloriesBurnOut - workOutValue;
     firestore()
       .collection('calories')
