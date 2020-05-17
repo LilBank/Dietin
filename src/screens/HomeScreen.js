@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
+import auth from '@react-native-firebase/auth';
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -25,6 +26,12 @@ export default class HomeScreen extends Component {
       caloriesConsumed: 0,
       caloriesBurnOut: 0,
     });
+  };
+
+  onSignOut = () => {
+    auth()
+      .signOut()
+      .then(() => alert('User signed out!'));
   };
 
   render() {
@@ -57,6 +64,11 @@ export default class HomeScreen extends Component {
           style={styles.buttonContainer}
           onPress={this.onResetPress}>
           <Text style={{fontSize: 16}}>Reset</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.buttonContainer}
+          onPress={this.onSignOut}>
+          <Text style={{fontSize: 16}}>Sign out</Text>
         </TouchableHighlight>
       </View>
     );
