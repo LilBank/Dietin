@@ -11,7 +11,7 @@ import auth from '@react-native-firebase/auth';
 export default class Register extends Component {
   constructor(props) {
     super(props);
-    state = {
+    this.state = {
       email: '',
       password: '',
     };
@@ -19,7 +19,13 @@ export default class Register extends Component {
 
   onRegister = () => {
     const {email, password} = this.state;
-    auth().createUserWithEmailAndPassword(email, password).then(()=> alert("Created"));
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        alert('User created!');
+        this.props.navigation.navigate('Home');
+      })
+      .catch(error => alert(error));
   };
 
   render() {
@@ -60,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#00b5ec',
+    backgroundColor: '#DCDCDC',
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -95,7 +101,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   signupButton: {
-    backgroundColor: '#FF4DFF',
+    backgroundColor: '#00b5ec',
   },
   signUpText: {
     color: 'white',

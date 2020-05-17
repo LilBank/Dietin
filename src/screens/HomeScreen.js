@@ -31,14 +31,17 @@ export default class HomeScreen extends Component {
   onSignOut = () => {
     auth()
       .signOut()
-      .then(() => alert('User signed out!'));
+      .then(() => {
+        alert('User signed out!');
+        this.props.navigation.navigate('Login');
+      });
   };
 
   render() {
     const {caloriesRemaining, caloriesConsumed, caloriesBurnOut} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={{fontSize: 25, marginBottom: 30, marginTop: 30}}>
+        <Text style={{fontSize: 25, marginBottom: 30, marginTop: 10}}>
           Calories Remaining
         </Text>
         <Text style={{fontSize: 30, marginBottom: 30}}>
@@ -47,7 +50,7 @@ export default class HomeScreen extends Component {
         <Text style={{fontSize: 25, marginBottom: 30}}>
           Consumed {caloriesConsumed}
         </Text>
-        <Text style={{fontSize: 25, marginBottom: 30}}>
+        <Text style={{fontSize: 25, marginBottom: 45}}>
           Burn Out {caloriesBurnOut}
         </Text>
         <TouchableHighlight
