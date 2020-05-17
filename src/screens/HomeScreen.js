@@ -140,7 +140,6 @@ export default class HomeScreen extends Component {
         });
       });
   };
-  s;
 
   render() {
     const {
@@ -149,6 +148,8 @@ export default class HomeScreen extends Component {
       caloriesBurnOut,
       isModalEatVisible,
       isModalWorkOutVisible,
+      eatValue,
+      workOutValue,
     } = this.state;
     return (
       <View style={styles.container}>
@@ -196,8 +197,10 @@ export default class HomeScreen extends Component {
               <TextInput
                 style={styles.inputs}
                 placeholder="?"
+                keyboardType="numeric"
                 underlineColorAndroid="transparent"
                 onChangeText={eatValue => this.setState({eatValue})}
+                value={eatValue}
               />
             </View>
             <TouchableHighlight
@@ -219,8 +222,10 @@ export default class HomeScreen extends Component {
               <TextInput
                 style={styles.inputs}
                 placeholder="?"
+                keyboardType="numeric"
                 underlineColorAndroid="transparent"
                 onChangeText={workOutValue => this.setState({workOutValue})}
+                value={workOutValue}
               />
             </View>
             <TouchableHighlight
