@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -12,9 +13,17 @@ export default class HomeScreen extends Component {
       caloriesBurnOut: 0,
     };
   }
-  componentDidMount() {
-    this.setState({caloriesRemaining: 1500});
-  }
+  componentDidMount = async () => {
+    const user = await auth().currentUser;
+    firestore()
+      .collection('calories')
+      .get()
+      .then(documentSnapshot => {
+        if (documentSnapshot.data().userId === user.uid) {
+          console.log(documentSnapshot.data());
+        }
+      });
+  };
 
   onEatPress = () => {};
 
