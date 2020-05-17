@@ -58,6 +58,7 @@ export default class HomeScreen extends Component {
   };
 
   onResetPress = () => {
+    const {documentId} = this.state;
     firestore()
       .collection('calories')
       .doc(documentId)
@@ -67,7 +68,7 @@ export default class HomeScreen extends Component {
         burn_out: 0,
       });
     this.setState({
-      caloriesRemaining: 0,
+      caloriesRemaining: 1800,
       caloriesConsumed: 0,
       caloriesBurnOut: 0,
     });
@@ -83,20 +84,29 @@ export default class HomeScreen extends Component {
   };
 
   onEatSubmit = () => {
-    const {documentId, eatValue, caloriesRemaining} = this.state;
+    const {
+      documentId,
+      eatValue,
+      caloriesRemaining,
+      caloriesConsumed,
+    } = this.state;
     const currentCalories = caloriesRemaining - eatValue;
+    const currentConsume = caloriesConsumed + eatValue;
+    const currentBurnOut = caloriesConsumed + workOutValue;
     firestore()
       .collection('calories')
       .doc(documentId)
       .update({
         calories: currentCalories,
-        consume: eatValue,
+        consume: currentConsume,
+        burn_out: currentBurnOut,
       })
       .then(() => {
         alert('Updated!');
         this.setState({
           caloriesRemaining: currentCalories,
-          caloriesConsumed: eatValue,
+          caloriesConsumed: currentConsume,
+          caloriesBurnOut: currentBurnOut,
           isModalEatVisible: false,
         });
       });
@@ -105,18 +115,22 @@ export default class HomeScreen extends Component {
   onWorkOutSubmit = () => {
     const {documentId, workOutValue, caloriesRemaining} = this.state;
     const currentCalories = caloriesRemaining + workOutValue;
+    const currentWorkOut = caloriesConsumed + workOutValue;
+    const currentConsumed = caloriesBurnOut - workOutValue;
     firestore()
       .collection('calories')
       .doc(documentId)
       .update({
         calories: currentCalories,
-        burn_out: workOutValue,
+        burn_out: currentWorkOut,
+        consume: currentConsumed,
       })
       .then(() => {
         alert('Updated!');
         this.setState({
           caloriesRemaining: currentCalories,
-          caloriesBurnOut: workOutValue,
+          caloriesBurnOut: currentWorkOut,
+          caloriesConsumed: currentConsumed,
           isModalWorkOutVisible: false,
         });
       });
