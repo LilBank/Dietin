@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1036655861111",
+    "firebase_url": "https://dietin.firebaseio.com",
+    "project_id": "dietin",
+    "storage_bucket": "dietin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036655861111:android:5bcb964890340215be1572",
+        "android_client_info": {
+          "package_name": "com.dietin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036655861111-rd3626sl0vakhd90pa2ph105b20us077.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQey1qDNxtNTE15cjNzRphfQOdEj27Nzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036655861111-rd3626sl0vakhd90pa2ph105b20us077.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
