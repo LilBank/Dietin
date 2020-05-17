@@ -13,16 +13,29 @@ export default class HomeScreen extends Component {
       caloriesBurnOut: 0,
     };
   }
+
   componentDidMount = async () => {
-    const user = await auth().currentUser;
-    firestore()
-      .collection('calories')
-      .get()
-      .then(documentSnapshot => {
-        if (documentSnapshot.data().userId === user.uid) {
-          console.log(documentSnapshot.data());
-        }
-      });
+    const user = auth().currentUser;
+    if (user) {
+      try {
+        const snapshot = await firestore()
+          .collection('calories')
+          .get();
+
+        snapshot.forEach(documentSnapshot => {
+          const caloriesData = documentSnapshot.data();
+          if (user.uid === caloriesData.user_id) {
+            this.setState({
+              caloriesRemaining: caloriesData.calories,
+              caloriesConsumed: caloriesData.consume,
+              caloriesBurnOut: caloriesData.burn_out,
+            });
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   onEatPress = () => {};

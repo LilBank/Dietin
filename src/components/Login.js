@@ -24,10 +24,11 @@ export default class Login extends Component {
     Alert.alert('Alert', 'Button pressed ' + viewId);
   };
 
-  onLogin = () => {
+  onLogin = async () => {
     const {email, password} = this.state;
     auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => this.props.navigation.navigate('Home'))
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
           alert('That email address is already in use!');
@@ -39,7 +40,6 @@ export default class Login extends Component {
 
         alert(error);
       });
-    this.props.navigation.navigate('Home');
   };
 
   onRegister = () => {
