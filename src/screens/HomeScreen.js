@@ -15,30 +15,48 @@ export default class HomeScreen extends Component {
     this.setState({caloriesRemaining: 1500});
   }
 
+  onEatPress = () => {};
+
+  onWorkOutPress = () => {};
+
+  onResetPress = () => {
+    this.setState({
+      caloriesRemaining: 0,
+      caloriesConsumed: 0,
+      caloriesBurnOut: 0,
+    });
+  };
+
   render() {
     const {caloriesRemaining, caloriesConsumed, caloriesBurnOut} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={{fontSize: 20, marginBottom: 30, marginTop: 30}}>
-          Calories{'\n'}Remaining
+        <Text style={{fontSize: 25, marginBottom: 30, marginTop: 30}}>
+          Calories Remaining
         </Text>
-        <Text style={{fontSize: 20, marginBottom: 30}}>
+        <Text style={{fontSize: 30, marginBottom: 30}}>
           {caloriesRemaining}
         </Text>
-        <Text style={{fontSize: 20, marginBottom: 30}}>
+        <Text style={{fontSize: 25, marginBottom: 30}}>
           Consumed {caloriesConsumed}
         </Text>
-        <Text style={{fontSize: 20, marginBottom: 30}}>
+        <Text style={{fontSize: 25, marginBottom: 30}}>
           Burn Out {caloriesBurnOut}
         </Text>
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => {}}>
-          <Text>Eat</Text>
+        <TouchableHighlight
+          style={styles.buttonContainer}
+          onPress={this.onEatPress}>
+          <Text style={{fontSize: 16}}>Eat</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => {}}>
-          <Text>Workout</Text>
+        <TouchableHighlight
+          style={styles.buttonContainer}
+          onPress={this.onWorkOutPress}>
+          <Text style={{fontSize: 16}}>Workout</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.buttonContainer} onPress={() => {}}>
-          <Text>Reset</Text>
+        <TouchableHighlight
+          style={styles.buttonContainer}
+          onPress={this.onResetPress}>
+          <Text style={{fontSize: 16}}>Reset</Text>
         </TouchableHighlight>
       </View>
     );
