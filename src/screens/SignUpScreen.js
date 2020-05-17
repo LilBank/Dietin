@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 export default class SignUpScreen extends Component {
   constructor(props) {
@@ -19,19 +20,16 @@ export default class SignUpScreen extends Component {
 
   onSignUp = () => {
     const {email, password} = this.state;
-    const user = auth().currentUser;
-
-    firestore()
-      .collection('calories')
-      .add({
-        user_id: user.uid,
-        calories: 1800,
-        consume: 0,
-      });
-      
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then(response => {
+        firestore()
+          .collection('calories')
+          .add({
+            user_id: response.user.uid,
+            calories: 1800,
+            consume: 0,
+          });
         alert('User created!');
         this.props.navigation.navigate('Home');
       })

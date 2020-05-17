@@ -27,6 +27,7 @@ export default class HomeScreen extends Component {
 
   componentDidMount = async () => {
     const user = auth().currentUser;
+    console.log(user.uid);
     if (user) {
       try {
         const snapshot = await firestore()
@@ -90,6 +91,7 @@ export default class HomeScreen extends Component {
       caloriesRemaining,
       caloriesConsumed,
     } = this.state;
+    console.log(documentId);
     const currentCalories = caloriesRemaining - eatValue;
     const currentConsume = caloriesConsumed + eatValue;
     const currentBurnOut = caloriesConsumed + eatValue;
